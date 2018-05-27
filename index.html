@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StickyParallax</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+
+    <div class="site">
+
+        <header class="site__header">
+            Header
+        </header>
+
+        <section class="section--full-height blue">
+            Section #1
+        </section>
+
+        <section class="section--full-height red">
+            Section #2
+        </section>
+
+        <section class="section--full-height orange">
+            Section #3
+            <div>End of section</div>
+        </section>
+
+        <section class="section--full-height green">
+            Section #4
+        </section>
+
+        <footer class="site__footer">
+            <div>Footer</div>
+            <a href="index-pure-css.html">CSS Parallax</a>
+        </footer>
+
+
+    </div>
+
+
+
+    <script type="text/javascript">
+
+
+        // Floating point value between 0 and 1 where at 0 it would scroll normally and by 1 it stays complete fixed
+        // Positive number pushes to bottom which is default. Negative number can be used to push content upwards and whitespace appears between sections
+        const parallaxMojo = .5;
+
+        const sections = domSel('.section--full-height');
+        // const sections = document.querySelectorAll('.blue, .red');
+
+        let latestScrollPosition = 0;
+        let ticking = false;
+
+        window.addEventListener('scroll', onScroll);
+
+        function onScroll() {
+            latestScrollPosition = window.scrollY || window.pageYOffset;
+            requestTick();
+        }
+
+        function requestTick() {
+            if(!ticking) {
+                requestAnimationFrame(updateOnScroll);
+            }
+            ticking = true;
+        }
+
+        // Update logic
+        function updateOnScroll() {
+            ticking = false;
+
+            // Logic for all sections
+            sections.forEach(function(section) {
+                parallaxSection(section);
+            });
+        }
+
+        function parallaxSection(section, power = .5) {
+            const windowHeight = window.innerHeight;
+            const scrollpos = latestScrollPosition;
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionEnd = sectionTop + sectionHeight;
+
+            const sectionInView = (scrollpos > sectionTop && scrollpos <= sectionEnd);
+            const nextSectionInView = ((scrollpos + windowHeight) > sectionEnd);
+            const sectionSmallerThanViewport = sectionHeight < windowHeight;
+
+            if(sectionInView && nextSectionInView) {
+                // Logic for each section
+                const innerScroll = sectionSmallerThanViewport ? (scrollpos - sectionTop) : ((scrollpos + windowHeight) - sectionEnd);
+                section.classList.add('parallax');
+                section.style.transform = 'translate3d(0, ' + Math.round(innerScroll * power) + 'px, 0)'; // 3D puts each section on a own rendering layer
+            } else {
+                // Remove logic for each section
+                section.classList.remove('parallax');
+                section.style.transform = '';
+            }
+        }
+
+        function domSel(selectors) {
+            var selectorsArray = [];
+            var selectionNodeList = document.querySelectorAll(selectors);
+            for (var i = 0; i < selectionNodeList.length; i++ ) {
+                selectorsArray.push(selectionNodeList[i]);
+            }
+            return selectorsArray;
+        }
+
+    </script>
+
+</body>
+</html>

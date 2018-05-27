@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StickyParallax</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+        html, body {
+            height: 100%;
+        }
+        .site {
+            height: 100%;
+            perspective: 1px;
+            perspective-origin: center top;
+            transform-style: preserve-3d;
+            overflow-x: hidden;
+        }
+
+        .site__header {
+            transform: translateZ(0);
+            background-color: #fff;
+            position: relative;
+            z-index: 3;
+        }
+
+        .section--full-height {
+            z-index: 2;
+            transform-origin: center top;
+        }
+
+        .blue {
+            z-index: 2;
+            transform:  translateZ(-1px) scale(2);
+        }
+
+        .red {
+            z-index: 3;
+            transform: translateZ(0);
+        }
+        .orange {
+            z-index: 4;
+            transform:  translateZ(-1px) scale(2);
+        }
+
+        .green {
+            z-index: 5;
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="site">
+
+        <header class="site__header">
+            Header
+        </header>
+
+        <section class="section--full-height blue">
+            Section #1
+        </section>
+
+        <section class="section--full-height red">
+            Section #2
+        </section>
+
+        <section class="section--full-height orange">
+            Section #3
+            <div>End of section</div>
+        </section>
+
+        <section class="section--full-height green">
+            Section #4
+        </section>
+
+        <footer class="site__footer">
+            <div>Footer</div>
+            <a href="index.html">JS Parallax</a>
+        </footer>
+
+
+    </div>
+
+</body>
+</html>
